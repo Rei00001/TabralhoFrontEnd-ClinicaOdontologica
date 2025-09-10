@@ -1,0 +1,83 @@
+/* ===== Tokens ===== */
+:root{
+  --bg:#0b0720; --bg-elev:#0f1223; --line:#1f2937; --line-soft:#243244;
+  --text:#e5e7eb; --muted:#93a3b8; --brand:#34d399; --link:#67e8f9;
+  --btn:#16a34a; --btn-alt:#0ea5e9; --btn-muted:#334155; --danger:#ef4444;
+  --radius:16px; --r-sm:10px; --shadow:0 6px 24px rgba(0,0,0,.18);
+  --ff:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  --sp-1:.25rem; --sp-2:.5rem; --sp-3:.75rem; --sp-4:1rem; --sp-5:1.5rem; --sp-6:2rem;
+}
+
+/* ===== Base ===== */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--ff);line-height:1.5;background:var(--bg);color:var(--text)}
+a{color:var(--link);text-decoration:none}
+img{max-width:100%;display:block}
+::selection{background:rgba(103,232,249,.25)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:6px}
+
+/* app guard */
+.app-hidden{visibility:hidden}
+
+/* ===== Layout ===== */
+.container{max-width:1100px;margin:0 auto;padding:var(--sp-4)}
+.stack{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap}
+.row{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap}
+.grid{display:grid;gap:var(--sp-4)}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:1fr 1fr 1fr}
+.mt-1{margin-top:var(--sp-2)}.mt-2{margin-top:var(--sp-3)}.mt-3{margin-top:var(--sp-4)}
+.space-between{justify-content:space-between}
+
+/* ===== Componentes ===== */
+.card{background:var(--bg-elev);border:1px solid var(--line-soft);border-radius:var(--radius);padding:var(--sp-4);box-shadow:var(--shadow)}
+.page-title{font-size:1.6rem;margin:.5rem 0 1rem}
+.section-title{font-size:1.25rem;margin:.25rem 0 1rem;color:var(--brand)}
+.btn{display:inline-block;padding:.7rem 1rem;border-radius:999px;border:0;background:var(--btn);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 6px 16px rgba(22,163,74,.25)}
+.btn.secondary{background:var(--btn-alt);box-shadow:0 6px 16px rgba(14,165,233,.25)}
+.btn.muted{background:var(--btn-muted);box-shadow:none}
+.btn:active{transform:translateY(1px)}
+.chip{display:inline-block;padding:.45rem .75rem;border-radius:999px;border:1px solid var(--line-soft);background:#0b0f1d}
+.linklike{background:none;border:0;padding:0;color:var(--link);cursor:pointer;font:inherit}
+
+/* Forms */
+label{display:block;margin:.4rem 0 .25rem}
+input,select,textarea{width:100%;padding:.7rem .8rem;border-radius:var(--r-sm);border:1px solid var(--line-soft);background:#0b0f1d;color:var(--text)}
+input:focus,select:focus,textarea:focus{border-color:var(--link);box-shadow:0 0 0 3px rgba(103,232,249,.15);outline:none}
+.help{color:var(--muted);font-size:.9rem}
+.error{color:var(--danger)}
+
+/* Table */
+table{width:100%;border-collapse:collapse;border-radius:var(--radius);overflow:hidden}
+thead th{background:linear-gradient(180deg, rgba(52,211,153,.08), rgba(52,211,153,0));padding:.7rem;border-bottom:1px solid var(--line-soft);text-align:left}
+tbody td{padding:.7rem;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+.status{display:inline-block;padding:.2rem .5rem;border-radius:6px;border:1px solid var(--line-soft);font-size:.85rem}
+.status[data-type="pendente"]{color:#fbbf24;border-color:rgba(251,191,36,.35)}
+.status[data-type="aprovada"]{color:#34d399;border-color:rgba(52,211,153,.35)}
+.status[data-type="recusada"], .status[data-type="cancelada"]{color:#ef4444;border-color:rgba(239,68,68,.35)}
+
+/* Header & Footer */
+header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:10}
+.header-row{display:flex;align-items:center;gap:var(--sp-3);justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:700;color:var(--brand)}
+.logo{font-size:1.2rem}
+.nav a{padding:.35rem .65rem;border-radius:8px;cursor:pointer}
+.nav a.active{background:rgba(103,232,249,.12)}
+.auth{display:flex;align-items:center;gap:.5rem}
+footer{border-top:1px solid var(--line);padding:var(--sp-5) var(--sp-4);color:var(--muted);text-align:center}
+
+/* Views (SPA cliente) */
+.view{display:none}
+.view.is-active{display:block}
+
+/* Específicos */
+.login-card{max-width:480px;margin:2.5rem auto}
+.contact-grid{display:grid;grid-template-columns:9rem 1fr;gap:.5rem 1rem}
+
+/* Responsivo */
+@media (max-width:640px){
+  .cols-2,.cols-3{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+}

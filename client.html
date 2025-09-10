@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CheckUp • Cliente</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-hidden">
+  <!-- HEADER (apenas cliente) -->
+  <header>
+    <div class="container header-row">
+      <div class="brand"><span class="logo">🦷</span>CheckUp</div>
+
+      <nav id="nav" class="nav">
+        <a data-section="inicio" class="active" role="button" aria-current="page">Início</a>
+        <a data-section="sobre" role="button">Sobre</a>
+        <a data-section="servicos" role="button">Serviços</a>
+        <a data-section="agendar" role="button">Agendar</a>
+        <a data-section="contato" role="button">Contato</a>
+      </nav>
+
+      <div class="auth">
+        <span id="userBadge" class="chip" hidden></span>
+        <button id="btnLogout" class="btn muted" type="button">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <!-- INÍCIO -->
+    <section class="view is-active" data-view="inicio" aria-labelledby="h-inicio">
+      <!-- Banner de aprovações para o cliente -->
+      <div id="alertasCliente" class="card mt-3" hidden></div>
+
+      <div class="card">
+        <h1 id="h-inicio" class="page-title">Seu sorriso, nossa prioridade!</h1>
+        <p>Atendimento acolhedor, prevenção e clareza no cuidado com sua saúde bucal.</p>
+        <div class="stack mt-2">
+          <span class="chip">Seg–Sex 09:00–18:00</span>
+          <span class="chip">Bairro Central</span>
+          <span class="chip">Estacionamento</span>
+        </div>
+        <div class="stack mt-3">
+          <button class="btn" type="button" data-section="agendar">Agendar consulta</button>
+          <button class="btn secondary" type="button" data-section="servicos">Ver serviços</button>
+        </div>
+      </div>
+
+      <aside class="card mt-3">
+        <h2 class="section-title">Horários livres (hoje e amanhã)</h2>
+        <div id="listaHorariosLivres" class="stack" role="list"></div>
+        <p class="help mt-1">* Gerados a partir da disponibilidade definida pelo Admin.</p>
+      </aside>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="view" data-view="sobre" aria-labelledby="h-sobre">
+      <div class="card">
+        <h1 id="h-sobre" class="page-title">Sobre a Clínica</h1>
+        <p><strong>Dra. Fulana da Silva – CRO 12345</strong></p>
+        <div class="card mt-2"><strong>Missão</strong><p>Promover saúde bucal com clareza, cuidado e simplicidade.</p></div>
+        <div class="card mt-2"><strong>Estrutura</strong><p>Consultório equipado, atendimento individual, esterilização adequada.</p></div>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section class="view" data-view="servicos" aria-labelledby="h-servicos">
+      <div class="card">
+        <h1 id="h-servicos" class="page-title">Serviços e Valores</h1>
+        <table>
+          <thead><tr><th>Serviço</th><th>Duração</th><th>Valor</th></tr></thead>
+          <tbody id="tbodyServicos"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- AGENDAR -->
+    <section class="view" data-view="agendar" aria-labelledby="h-agendar">
+      <div class="card">
+        <h1 id="h-agendar" class="page-title">Agende sua consulta</h1>
+        <form id="formAgendar">
+          <div class="grid cols-3">
+            <label>Nome completo<input name="nome" type="text" required placeholder="Seu nome"></label>
+            <label>WhatsApp<input name="tel" type="tel" required placeholder="(21) 90000-0000"></label>
+            <label>E-mail<input name="email" type="email" required placeholder="seu@email.com"></label>
+          </div>
+          <div class="grid cols-3 mt-2">
+            <label>Serviço<select name="servicoId" id="selectServico" required></select></label>
+            <label>Data<input name="data" id="inputData" type="date" required></label>
+            <label>Horário<select name="hora" id="selectHora" required><option value="" disabled selected>Selecione a data</option></select></label>
+          </div>
+          <label class="mt-2">Observações<input name="obs" type="text" placeholder="Dor, retorno, limpeza…"></label>
+          <div class="mt-3"><button class="btn" type="submit">Enviar solicitação</button><span id="msgAgendar" class="help" aria-live="polite"></span></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="view" data-view="contato" aria-labelledby="h-contato">
+      <div class="card">
+        <h1 id="h-contato" class="page-title">Contato</h1>
+        <dl class="contact-grid">
+          <dt>Endereço</dt><dd id="contatoEndereco">—</dd>
+          <dt>WhatsApp</dt><dd id="contatoWhats">—</dd>
+          <dt>E-mail</dt><dd id="contatoEmail">—</dd>
+          <dt>Atendimento</dt><dd id="contatoAtendimento">Seg–Sex, 09:00–18:00</dd>
+        </dl>
+        <div id="mapaWrap" class="mt-2"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer><div class="container footer-row"><small>© <span id="anoCliente"></span>CheckUp</small></div></footer>
+
+  <script src="client.js"></script>
+</body>
+</html>

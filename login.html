@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clínica Sorriso Único • Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="container">
+    <div class="brand" style="margin:1rem 0;"><span class="logo">🦷</span> Clínica Sorriso Único</div>
+
+    <!-- LOGIN -->
+    <div id="viewLogin" class="card login-card">
+      <h1 class="page-title">Acessar conta</h1>
+
+      <div class="grid cols-2">
+        <!-- Cliente -->
+        <div class="card">
+          <h2 class="section-title">Cliente</h2>
+          <label>E-mail
+            <input id="loginEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+          </label>
+          <label>Senha
+            <input id="loginPass" type="password" placeholder="••••••••" required>
+          </label>
+          <div class="stack mt-2">
+            <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
+            <button class="btn muted" type="button" data-nav="cadastro">Criar conta</button>
+          </div>
+          <button class="linklike mt-1" type="button" data-nav="reset">Esqueci minha senha</button>
+        </div>
+
+        <!-- Admin -->
+        <div class="card">
+          <h2 class="section-title">Admin</h2>
+          <p class="help">E-mail fixo do admin:</p>
+          <label>E-mail
+            <input id="loginEmailAdmin" type="email" value="admin@checkup.com" required>
+          </label>
+          <label>Senha
+            <input id="loginPassAdmin" type="password" placeholder="••••••••" required>
+          </label>
+          <div class="stack mt-2">
+            <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
+          </div>
+          <p class="help">Senha do protótipo: <code>12345678</code></p>
+        </div>
+      </div>
+
+      <p id="msgLogin" class="help error" aria-live="polite"></p>
+    </div>
+
+    <!-- CADASTRO (Cliente) -->
+    <div id="viewCadastro" class="card login-card" hidden>
+      <h1 class="page-title">Criar conta de Cliente</h1>
+      <label>E-mail
+        <input id="signupEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+      </label>
+      <div class="grid cols-2">
+        <label>Senha
+          <input id="signupPass" type="password" placeholder="mín. 6 caracteres" required>
+        </label>
+        <label>Confirmar senha
+          <input id="signupPass2" type="password" placeholder="repita a senha" required>
+        </label>
+      </div>
+      <div class="stack mt-2">
+        <button id="btnSignup" class="btn" type="button">Criar conta</button>
+        <button class="btn muted" type="button" data-nav="login">Voltar ao Login</button>
+      </div>
+      <p id="msgSignup" class="help" aria-live="polite"></p>
+    </div>
+
+    <!-- RESET DE SENHA (Cliente) -->
+    <div id="viewReset" class="card login-card" hidden>
+      <h1 class="page-title">Redefinir senha</h1>
+
+      <div id="resetStep1">
+        <label>E-mail cadastrado
+          <input id="resetEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+        </label>
+        <div class="stack mt-2">
+          <button id="btnResetSend" class="btn" type="button">Enviar código</button>
+          <button class="btn muted" type="button" data-nav="login">Voltar ao Login</button>
+        </div>
+        <p id="msgReset1" class="help" aria-live="polite"></p>
+      </div>
+
+      <div id="resetStep2" class="mt-3" hidden>
+        <div class="grid cols-3">
+          <label>Código recebido
+            <input id="resetCode" type="text" inputmode="numeric" maxlength="6" placeholder="000000" required>
+          </label>
+          <label>Nova senha
+            <input id="resetPass" type="password" placeholder="mín. 6 caracteres" required>
+          </label>
+          <label>Confirmar senha
+            <input id="resetPass2" type="password" placeholder="repita a senha" required>
+          </label>
+        </div>
+        <div class="stack mt-2">
+          <button id="btnResetApply" class="btn" type="button">Redefinir</button>
+        </div>
+        <p id="msgReset2" class="help" aria-live="polite"></p>
+        <p class="help mt-1">* Protótipo: o código aparece abaixo (em produção seria por e-mail).</p>
+        <div id="devCodeHint" class="chip" hidden></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container" style="text-align:center;color:var(--muted);padding:2rem 1rem;">
+    <small>© <span id="anoLogin"></span> Clínica Sorriso Único</small>
+  </footer>
+
+  <script src="auth.js"></script>
+</body>
+</html>

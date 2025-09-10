@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CheckUp • Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-hidden">
+  <!-- HEADER (somente admin; sem navegação de cliente) -->
+  <header>
+    <div class="container header-row">
+      <div class="brand"><span class="logo">🦷</span> CheckUp • Admin</div>
+      <div class="auth">
+        <span id="adminBadge" class="chip" hidden></span>
+        <button id="btnLogout" class="btn muted" type="button">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1 class="page-title">Painel Administrativo</h1>
+      <p class="help">Gerencie agendamentos, disponibilidade, serviços e contatos. (Esta página não exibe nada do cliente.)</p>
+    </section>
+
+    <!-- AGENDAMENTOS -->
+    <section class="card mt-3">
+      <h2 class="section-title">Agendamentos</h2>
+      <div class="row space-between">
+        <input id="filtroAgds" type="search" placeholder="Pesquisar por nome / data (AAAA-MM-DD)" />
+        <div class="stack">
+          <button class="btn muted" type="button" id="exportCsv">Exportar CSV</button>
+        </div>
+      </div>
+      <div class="mt-2" role="region" aria-label="Tabela de agendamentos">
+        <table>
+          <thead><tr><th>Status</th><th>Data</th><th>Hora</th><th>Nome</th><th>Contato</th><th>Serviço</th><th>Obs</th><th>Ações</th></tr></thead>
+          <tbody id="tbodyAgendamentos"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONFIGURAÇÕES DA CLÍNICA -->
+    <section class="grid cols-2 mt-3">
+      <!-- Horários -->
+      <form id="formConfig" class="card">
+        <h2 class="section-title">Horários / Disponibilidade</h2>
+        <div class="days">
+          <label><input type="checkbox" name="dias" value="1" checked> Seg</label>
+          <label><input type="checkbox" name="dias" value="2" checked> Ter</label>
+          <label><input type="checkbox" name="dias" value="3" checked> Qua</label>
+          <label><input type="checkbox" name="dias" value="4" checked> Qui</label>
+          <label><input type="checkbox" name="dias" value="5" checked> Sex</label>
+          <label><input type="checkbox" name="dias" value="6"> Sáb</label>
+        </div>
+        <div class="grid cols-3 mt-2">
+          <label>Início <input name="inicio" type="time" value="09:00" required></label>
+          <label>Fim <input name="fim" type="time" value="18:00" required></label>
+          <label>Intervalo (min) <input name="intervalo" type="number" value="30" min="10" step="5" required></label>
+        </div>
+        <label class="mt-2">Observações
+          <input name="obs" type="text" placeholder="Sem atendimento em feriados. Pausa 12:00–13:00.">
+        </label>
+        <div class="mt-2">
+          <button class="btn" type="submit">Salvar horários</button>
+          <span id="msgConfig" class="help" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <!-- Serviços -->
+      <form id="formServicos" class="card">
+        <h2 class="section-title">Serviços & Preços</h2>
+        <table>
+          <thead><tr><th>Serviço</th><th>Duração (min)</th><th>Preço (R$)</th><th></th></tr></thead>
+        <tbody id="tbodyServicosAdmin"></tbody>
+        <tfoot>
+          <tr>
+            <td><input id="novoNome" type="text" placeholder="Novo serviço"></td>
+            <td><input id="novoDuracao" type="number" placeholder="Duração"></td>
+            <td><input id="novoPreco" type="number" placeholder="Preço" step="0.01"></td>
+            <td><button id="btnAddServico" class="btn" type="button">Adicionar</button></td>
+          </tr>
+        </tfoot>
+        </table>
+        <p class="help mt-1">Edite valores nos campos e clique em “Salvar”.</p>
+      </form>
+
+      <!-- Contatos -->
+      <form id="formContatos" class="card">
+        <h2 class="section-title">Localização & Contatos</h2>
+        <label>Endereço <input name="endereco" type="text" placeholder="Rua das Flores, 123 — Bairro Central"></label>
+        <div class="grid cols-2 mt-1">
+          <label>WhatsApp <input name="whatsapp" type="tel" placeholder="(21) 90000-0000"></label>
+          <label>E-mail <input name="email" type="email" placeholder="contato@clinica.com"></label>
+        </div>
+        <label class="mt-1">URL do mapa (embed) <input name="mapaUrl" type="url" placeholder="https://maps.google.com/..."></label>
+        <div class="mt-2"><button class="btn" type="submit">Salvar contatos</button><span id="msgContatos" class="help" aria-live="polite"></span></div>
+      </form>
+    </section>
+  </main>
+
+  <footer><div class="container footer-row"><small>© <span id="anoAdmin"></span> CheckUp</small></div></footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>
