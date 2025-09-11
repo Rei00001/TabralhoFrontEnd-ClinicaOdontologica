@@ -148,12 +148,10 @@ img {
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(22, 163, 74, .25);
 }
 
 .btn.secondary {
   background: var(--btn-alt);
-  box-shadow: 0 6px 16px rgba(14, 165, 233, .25);
 }
 
 .btn.muted {
