@@ -21,10 +21,10 @@
         <div class="card">
           <h2 class="section-title">Cliente</h2>
           <label>E-mail
-            <input id="loginEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+            <input id="clientEmail" type="email" placeholder="nomedocliente@gmail.com" required>
           </label>
           <label>Senha
-            <input id="loginPass" type="password" placeholder="••••••••" required>
+            <input id="clientPass" type="password" placeholder="••••••••" required>
           </label>
           <div class="stack mt-2">
             <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
@@ -36,18 +36,14 @@
         <!-- Admin -->
         <div class="card">
           <h2 class="section-title">Admin</h2>
-          <p class="help">E-mail fixo do admin:</p>
           <label>E-mail
-            <input id="loginEmailAdmin" type="email" value="admin@checkup.com" required>
+            <input id="adminEmail" type="email" value="admin@checkup.com" required readonly>
           </label>
           <label>Senha
-            <input id="loginPassAdmin" type="password" placeholder="••••••••" required>
+            <input id="Atendimento" type="password" placeholder="••••••••" required>
           </label>
           <div class="stack mt-2">
             <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
-          </div>
-          <p class="help">Senha do protótipo: <code>12345678</code></p>
-        </div>
       </div>
 
       <p id="msgLogin" class="help error" aria-live="polite"></p>

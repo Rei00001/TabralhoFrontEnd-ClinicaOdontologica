@@ -118,10 +118,12 @@
   <footer><div class="container footer-row"><small>© <span id="anoCliente"></span>CheckUp</small></div></footer>
 
   <script src="client.js"></script>
+
+  <!-- JS simples para navegação entre os navegadores (sobre, serviços...) -->
   <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const navLinks = document.querySelectorAll("nav a");
-  const views = document.querySelectorAll(".view");
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll("nav a");
+    const views = document.querySelectorAll(".view");
 
   navLinks.forEach(link => {
     link.addEventListener("click", () => {

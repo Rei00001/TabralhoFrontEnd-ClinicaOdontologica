@@ -302,6 +302,7 @@ header {
 }
 
 .nav a.active {
+  border-radius: 20px;
   background: rgba(103, 232, 249, .12);
 }
 
