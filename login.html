@@ -12,42 +12,46 @@
   <main class="container">
     <div class="brand" style="margin:1rem 0;"><span class="logo">🦷</span> CheckUp</div>
 
-    <!-- LOGIN -->
-    <div id="viewLogin" class="card login-card">
-      <h1 class="page-title">Acessar conta</h1>
+   <!-- LOGIN -->
+<div id="viewLogin" class="card login-card">
+  <h1 class="page-title">Acessar conta</h1>
 
-      <div class="grid cols-2">
-        <!-- Cliente -->
-        <div class="card">
-          <h2 class="section-title">Cliente</h2>
-          <label>E-mail
-            <input id="clientEmail" type="email" placeholder="nomedocliente@gmail.com" required>
-          </label>
-          <label>Senha
-            <input id="clientPass" type="password" placeholder="••••••••" required>
-          </label>
-          <div class="stack mt-2">
-            <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
-            <button class="btn muted" type="button" data-nav="cadastro">Criar conta</button>
-          </div>
-          <button class="linklike mt-1" type="button" data-nav="reset">Esqueci minha senha</button>
-        </div>
-
-        <!-- Admin -->
-        <div class="card">
-          <h2 class="section-title">Admin</h2>
-          <label>E-mail
-            <input id="adminEmail" type="email" value="admin@checkup.com" required readonly>
-          </label>
-          <label>Senha
-            <input id="Atendimento" type="password" placeholder="••••••••" required>
-          </label>
-          <div class="stack mt-2">
-            <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
+  <div class="grid cols-2">
+    <!-- Cliente -->
+    <div class="card">
+      <h2 class="section-title">Cliente</h2>
+      <label>E-mail
+        <input id="clientEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+      </label>
+      <label>Senha
+        <input id="clientPass" type="password" placeholder="••••••••" required>
+      </label>
+      <div class="stack mt-2">
+        <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
+        <button class="btn muted" type="button" data-nav="cadastro">Criar conta</button>
       </div>
+      <button class="linklike mt-1" type="button" data-nav="reset">Esqueci minha senha</button>
+    </div> <!-- /card Cliente -->
+
+    <!-- Admin -->
+    <div class="card">
+      <h2 class="section-title">Admin</h2>
+      <label>E-mail
+        <input id="adminEmail" type="email" value="admin@checkup.com" required readonly>
+      </label>
+      <label>Senha
+        <input id="Atendimento" type="password" placeholder="••••••••" required>
+      </label>
+      <div class="stack mt-2">
+        <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
+      </div>
+      <p class="help">Senha do protótipo: <code>12345678</code></p>
+      </div> <!-- /card Admin -->
+      </div> <!-- /grid cols-2 -->
 
       <p id="msgLogin" class="help error" aria-live="polite"></p>
-    </div>
+      </div> <!-- /viewLogin -->
+
 
     <!-- CADASTRO (Cliente) -->
     <div id="viewCadastro" class="card login-card" hidden>
