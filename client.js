@@ -1,4 +1,3 @@
-// client.js
 document.addEventListener("DOMContentLoaded", () => {
   // Navegação entre abas
   const navLinks = document.querySelectorAll("nav a");
@@ -17,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => link.addEventListener("click", () => navegarPara(link.dataset.section)));
   botaoSecoes.forEach(botao => botao.addEventListener("click", () => navegarPara(botao.dataset.section)));
 
-  // Dados simulados (inicializar se necessário)
+  // Dados simulados (para o localstorage inicializar)
   if (!localStorage.getItem("servicos")) {
     localStorage.setItem("servicos", JSON.stringify([
       { id: 1, nome: "Limpeza", duracao: 30, preco: 120.00 },
@@ -26,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (!localStorage.getItem("disponibilidade")) {
     localStorage.setItem("disponibilidade", JSON.stringify({
-      dias: [1,2,3,4,5], // Seg–Sex (1..5)
+      dias: [1,2,3,4,5],
       inicio: "09:00",
       fim: "18:00",
       intervalo: 30
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("agendamentos", JSON.stringify([]));
   }
 
-  // ---------- FUNÇÕES ----------
+  //FUNÇÕES
   function carregarServicos() {
     const servicos = JSON.parse(localStorage.getItem("servicos") || "[]");
     const tbody = document.getElementById("tbodyServicos");
@@ -231,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---------- BLOQUEIO DE DATAS INVÁLIDAS ----------
+  //BLOQUEIO DE DATAS INVÁLIDAS
   const inputData = document.getElementById("inputData");
   function atualizarInputData() {
     if (!inputData) return;
@@ -256,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------- FORM AGENDAR ----------
+  //FORM AGENDAR
   const formAgendar = document.getElementById("formAgendar");
   const msgAgendar = document.getElementById("msgAgendar");
   if (formAgendar) {
@@ -290,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------- STATUS SNAPSHOT (para detectar aprovações) ----------
+  //STATUS SNAPSHOT (para detectar aprovações)
   function buildStatusSnapshot() {
     const ags = JSON.parse(localStorage.getItem("agendamentos") || "[]");
     const snap = {};
