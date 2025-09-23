@@ -6,6 +6,7 @@
   <title>CheckUp • Cliente</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%2285%22 font-size=%2280%22>🦷</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -53,7 +54,6 @@
       <aside class="card mt-3">
         <h2 class="section-title">Horários livres (hoje e amanhã)</h2>
         <div id="listaHorariosLivres" class="stack" role="list"></div>
-        <p class="help mt-1">* Gerados a partir da disponibilidade definida pelo Admin.</p>
       </aside>
     </section>
 
@@ -64,6 +64,19 @@
         <p><strong>Dra. Fulana da Silva – CRO 12345</strong></p>
         <div class="card mt-2"><strong>Missão</strong><p>Promover saúde bucal com clareza, cuidado e simplicidade.</p></div>
         <div class="card mt-2"><strong>Estrutura</strong><p>Consultório equipado, atendimento individual, esterilização adequada.</p></div>
+      </div>
+
+      <div class="card mt-3">
+        <h1 id="h-trabalho" class="page-title">Sobre o Site</h1>
+        <p>Este site foi desenvolvido como parte de um trabalho avaliativo do curso de<strong> Análise e Desenvolvimento de Sistemas – Universidade Veiga de Almeida (UVA)</strong>.</p>
+        
+        <div class="card mt-2">
+          <strong>Proposta</strong>
+          <p>Criar uma aplicação simples para simular o site institucional de uma clínica odontológica independente, aplicando conceitos de front-end, usabilidade e boas práticas de desenvolvimento web.</p></div>
+
+        <div class="card mt-2"><strong>Equipe</strong>
+          <p>Projeto realizado por: <br>Rhenan Silva, Lucas Bastos, Luz Felipe Martins, Bruna Areias e Pedro Nóbrega.</p>
+        </div>
       </div>
     </section>
 
@@ -111,36 +124,35 @@
         </dl>
         <div id="mapaWrap" class="mt-2"></div>
       </div>
+
+      <div class="card mt-3">
+        <h1 id="h-grupo" class="page-title">Contato dos Fundadores</h1>
+        <dl class="contact-grid">
+          <dt>Rhenan Silva</dt>
+          <dd><a href="https://github.com/Rei00001" target="_blank">github.com/Rei00001</a></dd>
+
+          <dt>Lucas Bastos</dt>
+          <dd><a href="https://github.com/lbastos16" target="_blank">github.com/lbastos16</a></dd>
+
+          <dt>Luz Felipe Martins</dt>
+          <dd><a href="https://github.com/Efipee" target="_blank">github.com/Efipee</a></dd>
+
+          <dt>Bruna Areias</dt>
+          <dd><a href="https://github.com/Brunaareias" target="_blank">github.com/Brunaareias</a></dd>
+
+          <dt>Pedro Nóbrega</dt>
+          <dd><a href="https://github.com/pedroonobregaa" target="_blank">github.com/pedroonobregaa</a></dd>
+
+          <dt>Wangleson Sebastião</dt>
+          <dd><a href="https://github.com/Ryoszz" target="_blank">github.com/Ryoszz</a></dd>
+        </dl>
+      </div>
     </section>
   </main>
 
   <!-- FOOTER -->
-  <footer><div class="container footer-row"><small>© <span id="anoCliente"></span>CheckUp</small></div></footer>
+  <footer><div class="container footer-row"><small>© <span id="anoCliente"></span>CheckUp - Sua clínica independente</small></div></footer>
 
   <script src="client.js"></script>
-  <script src="admclient.js"></script>
-  <!-- JS simples para navegação entre os navegadores (sobre, serviços...) -->
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelectorAll("nav a");
-    const views = document.querySelectorAll(".view");
-
-  navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      // remove classes ativas
-      navLinks.forEach(l => l.classList.remove("active"));
-      views.forEach(v => v.classList.remove("is-active"));
-
-      // adiciona ativo ao link clicado
-      link.classList.add("active");
-
-      // mostra a seção correspondente
-      const target = link.getAttribute("data-section");
-      document.querySelector(`[data-view="${target}"]`).classList.add("is-active");
-    });
-  });
-});
-</script>
-
 </body>
 </html>
