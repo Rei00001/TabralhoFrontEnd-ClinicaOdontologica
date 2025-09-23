@@ -71,62 +71,66 @@ document.addEventListener("DOMContentLoaded", () => {
         : "";
     }
 
-    // Atualiza card inicial (chips). Caso spans não existam, garante criação.
-    const inicioCard = document.querySelector('.view[data-view="inicio"] .card');
-    if (inicioCard) {
-      let stack = inicioCard.querySelector('.stack');
-      if (!stack) {
-        // cria stack se não existir
-        stack = document.createElement('div');
-        stack.className = 'stack mt-2';
-        // inserir antes do próximo elemento de botão
-        const ref = inicioCard.querySelector('.stack.mt-3') || inicioCard.querySelector('.stack') || inicioCard.firstChild;
-        inicioCard.insertBefore(stack, ref);
-      }
-      // garante pelo menos 3 spans (dias/horário, endereço, estacionamento)
-      while (stack.querySelectorAll('span').length < 3) {
-        const sp = document.createElement('span');
-        sp.className = 'chip';
-        sp.textContent = '—';
-        stack.appendChild(sp);
-      }
-      const spans = stack.querySelectorAll('span');
-      spans[1].textContent = contatos.endereco || "Bairro Central";
-    }
+    // Atualiza também o card inicial (chips)
+    renderInicioChips();
   }
 
   // Carrega disponibilidade e mostra nos chips (dias e horário) do card inicial e seção contato
   function carregarHorariosCliente() {
     const disp = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
-    const inicioCard = document.querySelector('.view[data-view="inicio"] .card');
+    const contatoAtend = document.getElementById("contatoAtendimento");
     const diasStr = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-    if (inicioCard) {
-      let stack = inicioCard.querySelector('.stack');
-      if (!stack) {
-        stack = document.createElement('div');
-        stack.className = 'stack mt-2';
-        const ref = inicioCard.querySelector('.stack.mt-3') || inicioCard.firstChild;
-        inicioCard.insertBefore(stack, ref);
-      }
-      while (stack.querySelectorAll('span').length < 3) {
-        const sp = document.createElement('span');
-        sp.className = 'chip';
-        sp.textContent = '—';
-        stack.appendChild(sp);
-      }
-      const spans = stack.querySelectorAll('span');
+
+    if (contatoAtend && disp.dias) {
       const diasAtendimento = Array.isArray(disp.dias) ? disp.dias.map(d => diasStr[d]).join("–") : "—";
-      const inicio = disp.inicio || "";
-      const fim = disp.fim || "";
-      spans[0].textContent = `${diasAtendimento} ${inicio}–${fim}`;
+      contatoAtend.textContent = `${diasAtendimento}, ${disp.inicio || ''}–${disp.fim || ''}`;
     }
 
-    // Atualiza card de contato (seção contato)
-    const contatoAtend = document.getElementById("contatoAtendimento");
-    if (contatoAtend && disp.dias) {
-      const diasAtendimento = disp.dias.map(d => diasStr[d]).join("–");
-      contatoAtend.textContent = `${diasAtendimento}, ${disp.inicio}–${disp.fim}`;
+    // Atualiza também o card inicial (chips)
+    renderInicioChips();
+  }
+
+  // Renderiza os chips do card "inicio" (dias+horário, endereço, estacionamento)
+  function renderInicioChips() {
+    const inicioCard = document.querySelector('.view[data-view="inicio"] .card');
+    if (!inicioCard) return;
+
+    // encontra/garante container .stack (o stack com chips é o que fica logo abaixo do parágrafo)
+    let stack = inicioCard.querySelector('.stack.mt-2') || inicioCard.querySelector('.stack');
+    if (!stack) {
+      // cria um stack antes dos botões
+      stack = document.createElement('div');
+      stack.className = 'stack mt-2';
+      const ref = inicioCard.querySelector('.stack.mt-3') || inicioCard.querySelector('.stack') || inicioCard.firstChild;
+      inicioCard.insertBefore(stack, ref);
     }
+
+    // garante exatamente 3 spans/chips dentro do stack (manter ordem previsível)
+    while (stack.querySelectorAll('span').length < 3) {
+      const sp = document.createElement('span');
+      sp.className = 'chip';
+      sp.textContent = '—';
+      stack.appendChild(sp);
+    }
+    // se houver mais, não removemos — apenas usamos os primeiros 3
+    const spans = stack.querySelectorAll('span');
+
+    // carregar dados
+    const contatos = JSON.parse(localStorage.getItem("contatos") || "{}");
+    const disp = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
+    const diasStr = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+    // primeiro chip: dias + horário (ex: Seg–Ter–Qua 09:00–18:00)
+    const diasAtendimento = Array.isArray(disp.dias) && disp.dias.length ? disp.dias.map(d => diasStr[d]).join("–") : "—";
+    const inicio = disp.inicio || "";
+    const fim = disp.fim || "";
+    spans[0].textContent = diasAtendimento === "—" ? "Horário indisponível" : `${diasAtendimento} ${inicio}–${fim}`;
+
+    // segundo chip: endereço (pega do contatos)
+    spans[1].textContent = contatos.endereco || "Bairro Central";
+
+    // terceiro chip: texto fixo (mantive "Estacionamento", mas você pode personalizar)
+    spans[2].textContent = "Estacionamento";
   }
 
   // Formata data DD/MM
@@ -139,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Helper que retorna true se horario está na pausa almoço (12:00–13:00)
   function ehPausaAlmoco(horaObj) {
     // horaObj: [hh, mm]
-    // Consideramos qualquer slot que comece em 12:00..12:59 como pausa
     return horaObj[0] === 12;
   }
 
@@ -363,4 +366,3 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("inputData").addEventListener("change", atualizarSelectHora);
   }
 });
-
