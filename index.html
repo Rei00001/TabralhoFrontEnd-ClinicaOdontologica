@@ -3,55 +3,62 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CheckUp</title>
+  <title>CheckUp • Login</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%2285%22 font-size=%2280%22>🦷</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Classe para controlar visibilidade das views */
+    .view { display: none; }
+    .view.is-active { display: block; }
+  </style>
 </head>
 <body>
   <main class="container">
     <div class="brand" style="margin:1rem 0;"><span class="logo">🦷</span> CheckUp</div>
 
-   <!-- LOGIN -->
-<div id="viewLogin" class="card login-card">
-  <h1 class="page-title">Acessar conta</h1>
+    <!-- LOGIN -->
+    <div id="viewLogin" class="card login-card view is-active">
+      <h1 class="page-title">Acessar conta</h1>
 
-  <div class="grid cols-2">
-    <!-- Cliente -->
-    <div class="card">
-      <h2 class="section-title">Cliente</h2>
-      <label>E-mail
-        <input id="clientEmail" type="email" placeholder="nomedocliente@gmail.com" required>
-      </label>
-      <label>Senha
-        <input id="clientPass" type="password" placeholder="••••••••" required>
-      </label>
-      <div class="stack mt-2">
-        <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
-        <button class="btn muted" type="button" data-nav="cadastro">Criar conta</button>
+      <div class="grid cols-2">
+        <!-- Cliente -->
+        <div class="card">
+          <h2 class="section-title">Cliente</h2>
+          <label>E-mail
+            <input id="clientEmail" type="email" placeholder="nomedocliente@gmail.com" required>
+          </label>
+          <label>Senha
+            <input id="clientPass" type="password" placeholder="••••••••" required>
+          </label>
+          <div class="stack mt-2">
+            <button id="btnLoginCliente" class="btn" type="button">Entrar como Cliente</button>
+            <button class="btn muted" type="button" data-nav="cadastro">Criar conta</button>
+          </div>
+        </div>
+
+        <!-- Admin -->
+        <div class="card">
+          <h2 class="section-title">Admin</h2>
+          <label>E-mail
+            <input id="adminEmail" type="email" value="admin@checkup.com" required readonly>
+          </label>
+          <label>Senha
+            <input id="adminPass" type="password" placeholder="••••••••" required>
+          </label>
+          <div class="stack mt-2">
+            <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
+          </div>
+        </div>
       </div>
-      <button class="linklike mt-1" type="button" data-nav="reset">Esqueci minha senha</button>
-    </div> <!-- /card Cliente -->
-
-    <!-- Admin -->
-    <div class="card">
-      <h2 class="section-title">Admin</h2>
-      <label>E-mail
-        <input id="adminEmail" type="email" value="admin@checkup.com" required readonly>
-      </label>
-      <label>Senha
-        <input id="Atendimento" type="password" placeholder="••••••••" required>
-      </label>
-      <div class="stack mt-2">
-        <button id="btnLoginAdmin" class="btn secondary" type="button">Entrar como Admin</button>
-    </div> <!-- /grid cols-2 -->
 
       <p id="msgLogin" class="help error" aria-live="polite"></p>
-      </div>
+    </div>
 
     <!-- CADASTRO (Cliente) -->
-    <div id="viewCadastro" class="card login-card" hidden>
+    <div id="viewCadastro" class="card login-card view">
       <h1 class="page-title">Criar conta de Cliente</h1>
       <label>E-mail
         <input id="signupEmail" type="email" placeholder="nomedocliente@gmail.com" required>
@@ -72,7 +79,7 @@
     </div>
 
     <!-- RESET DE SENHA (Cliente) -->
-    <div id="viewReset" class="card login-card" hidden>
+    <div id="viewReset" class="card login-card view">
       <h1 class="page-title">Redefinir senha</h1>
 
       <div id="resetStep1">
@@ -86,7 +93,7 @@
         <p id="msgReset1" class="help" aria-live="polite"></p>
       </div>
 
-      <div id="resetStep2" class="mt-3" hidden>
+      <div id="resetStep2" class="mt-3" style="display:none;">
         <div class="grid cols-3">
           <label>Código recebido
             <input id="resetCode" type="text" inputmode="numeric" maxlength="6" placeholder="000000" required>
@@ -109,9 +116,10 @@
   </main>
 
   <footer class="container" style="text-align:center;color:var(--muted);padding:2rem 1rem;">
-    <small>© <span id="anoLogin"></span>CheckUp - Sua clínica independente</small>
+    <small>© <span id="anoLogin"></span> CheckUp - Sua clínica independente</small>
   </footer>
 
   <script src="auth.js"></script>
 </body>
 </html>
+
