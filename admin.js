@@ -29,31 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // adicionar after carregarAgendamentos() ou no final do arquivo admin.js
-document.getElementById("exportCsv")?.addEventListener("click", () => {
-  const ags = JSON.parse(localStorage.getItem("agendamentos") || "[]");
-  if (!ags.length) return alert("Nenhum agendamento para exportar.");
-  const servicos = JSON.parse(localStorage.getItem("servicos") || "[]");
-  const rows = [
-    ["id","status","data","hora","nome","tel","email","servico","obs"]
-  ];
-  ags.forEach(a => {
-    const s = servicos.find(x=>x.id==a.servicoId);
-    rows.push([a.id, a.status, a.data, a.hora, a.nome, a.tel || "", a.email || "", s? s.nome:"", (a.obs||"")]);
-  });
-  const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `agendamentos_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-});
-
-
   // Retorna true se alterou (usado opcionalmente)
   window.alterarStatus = function(id,status) {
     const agendamentos = JSON.parse(localStorage.getItem("agendamentos") || "[]");
@@ -171,6 +146,17 @@ document.getElementById("exportCsv")?.addEventListener("click", () => {
       setTimeout(() => msgConfig.textContent = "", 3000);
     });
   }
+
+  const btnLogout = document.getElementById("btnLogout");
+if (btnLogout) {
+  btnLogout.addEventListener("click", () => {
+    // Limpa sessionStorage, se quiser
+    sessionStorage.clear();
+    // Redireciona para login.html
+    window.location.href = "index.html";
+  });
+}
+
 
   // Inicializa
   carregarAgendamentos();
