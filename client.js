@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
       localStorage.removeItem("usuario"); // remove usuário logado
-      window.location.href = "index.html"; // volta para a página inicial/login
+      window.location.href = "https://rei00001.github.io/TabralhoFrontEnd-ClinicaOdontologica/"; // volta para a página inicial/login
     });
   }
 
