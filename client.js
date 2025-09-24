@@ -16,6 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => link.addEventListener("click", () => navegarPara(link.dataset.section)));
   botaoSecoes.forEach(botao => botao.addEventListener("click", () => navegarPara(botao.dataset.section)));
 
+  const btnLogout = document.getElementById("btnLogout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      localStorage.removeItem("usuario"); // remove usuário logado
+      window.location.href = "index.html"; // volta para a página inicial/login
+    });
+  }
+
   // Dados simulados
   if (!localStorage.getItem("servicos")) {
     localStorage.setItem("servicos", JSON.stringify([
