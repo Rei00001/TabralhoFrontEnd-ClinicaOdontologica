@@ -43,6 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("agendamentos", JSON.stringify([]));
   }
 
+  // Dados padrão para Contato
+if (!localStorage.getItem("contatos")) {
+  localStorage.setItem("contatos", JSON.stringify({
+    endereco: "Rua Exemplo, 123, Bairro Central",
+    whatsapp: "(21) 90000-0000",
+    email: "contato@checkup.com",
+    mapaUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.0..."
+  }));
+}
+
   // FUNÇÕES
   function carregarServicos() {
     const servicos = JSON.parse(localStorage.getItem("servicos") || "[]");
