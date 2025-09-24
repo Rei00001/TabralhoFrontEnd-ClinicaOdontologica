@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => link.addEventListener("click", () => navegarPara(link.dataset.section)));
   botaoSecoes.forEach(botao => botao.addEventListener("click", () => navegarPara(botao.dataset.section)));
 
-  // Dados simulados (para o localstorage inicializar)
+  // Dados simulados
   if (!localStorage.getItem("servicos")) {
     localStorage.setItem("servicos", JSON.stringify([
       { id: 1, nome: "Limpeza", duracao: 30, preco: 120.00 },
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("agendamentos", JSON.stringify([]));
   }
 
-  //FUNÇÕES
+  // FUNÇÕES
   function carregarServicos() {
     const servicos = JSON.parse(localStorage.getItem("servicos") || "[]");
     const tbody = document.getElementById("tbodyServicos");
@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Carrega contatos (admin -> client)
   function carregarContatos() {
     const contatos = JSON.parse(localStorage.getItem("contatos") || "{}");
     const enderecoEl = document.getElementById("contatoEndereco");
@@ -70,82 +69,58 @@ document.addEventListener("DOMContentLoaded", () => {
         : "";
     }
 
-    // Atualiza também o card inicial (chips)
     renderInicioChips();
   }
 
-  // Carrega disponibilidade e mostra nos chips (dias e horário) do card inicial e seção contato
   function carregarHorariosCliente() {
     const disp = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
     const contatoAtend = document.getElementById("contatoAtendimento");
     const diasStr = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-
     if (contatoAtend && disp.dias) {
       const diasAtendimento = Array.isArray(disp.dias) ? disp.dias.map(d => diasStr[d]).join("–") : "—";
       contatoAtend.textContent = `${diasAtendimento}, ${disp.inicio || ''}–${disp.fim || ''}`;
     }
-
-    // Atualiza também o card inicial (chips)
     renderInicioChips();
   }
 
-  // Renderiza os chips do card "inicio" (dias+horário, endereço, estacionamento)
   function renderInicioChips() {
     const inicioCard = document.querySelector('.view[data-view="inicio"] .card');
     if (!inicioCard) return;
-
-    // encontra/garante container .stack (o stack com chips é o que fica logo abaixo do parágrafo)
     let stack = inicioCard.querySelector('.stack.mt-2') || inicioCard.querySelector('.stack');
     if (!stack) {
-      // cria um stack antes dos botões
       stack = document.createElement('div');
       stack.className = 'stack mt-2';
       const ref = inicioCard.querySelector('.stack.mt-3') || inicioCard.querySelector('.stack') || inicioCard.firstChild;
       inicioCard.insertBefore(stack, ref);
     }
-
-    // garante exatamente 3 spans/chips dentro do stack (manter ordem previsível)
     while (stack.querySelectorAll('span').length < 3) {
       const sp = document.createElement('span');
       sp.className = 'chip';
       sp.textContent = '—';
       stack.appendChild(sp);
     }
-    // se houver mais, não removemos — apenas usamos os primeiros 3
     const spans = stack.querySelectorAll('span');
-
-    // carregar dados
     const contatos = JSON.parse(localStorage.getItem("contatos") || "{}");
     const disp = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
     const diasStr = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-
-    // primeiro chip: dias + horário (ex: Seg–Ter–Qua 09:00–18:00)
     const diasAtendimento = Array.isArray(disp.dias) && disp.dias.length ? disp.dias.map(d => diasStr[d]).join("–") : "—";
     const inicio = disp.inicio || "";
     const fim = disp.fim || "";
     spans[0].textContent = diasAtendimento === "—" ? "Horário indisponível" : `${diasAtendimento} ${inicio}–${fim}`;
-
-    // segundo chip: endereço (pega do contatos)
     spans[1].textContent = contatos.endereco || "Bairro Central";
-
-    // terceiro chip: texto fixo (mantive "Estacionamento", mas você pode personalizar)
     spans[2].textContent = "Estacionamento";
   }
 
-  // Formata data DD/MM
   function formatarDiaMes(d) {
     const dia = String(d.getDate()).padStart(2, "0");
     const mes = String(d.getMonth()+1).padStart(2, "0");
     return `${dia}/${mes}`;
   }
 
-  // Helper que retorna true se horario está na pausa almoço (12:00–13:00)
   function ehPausaAlmoco(horaObj) {
-    // horaObj: [hh, mm]
     return horaObj[0] === 12;
   }
 
-  // Gera horários livres (hoje e amanhã) respeitando disponibilidade e pausa almoço
   function gerarHorariosLivres() {
     const disponibilidade = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
     const agendamentos = JSON.parse(localStorage.getItem("agendamentos") || "[]");
@@ -162,12 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const fim = disponibilidade.fim.split(":").map(Number);
 
       while (hora[0] < fim[0] || (hora[0] === fim[0] && hora[1] + disponibilidade.intervalo <= fim[1])) {
-        // Se hora está na pausa, avançar para 13:00 e continuar
-        if (ehPausaAlmoco(hora)) {
-          hora = [13, 0];
-        }
-
-        // verificar novamente condição fim após ajuste
+        if (ehPausaAlmoco(hora)) hora = [13, 0];
         if (!(hora[0] < fim[0] || (hora[0] === fim[0] && hora[1] + disponibilidade.intervalo <= fim[1]))) break;
 
         const hStr = hora.map(n => String(n).padStart(2,"0")).join(":");
@@ -178,16 +148,28 @@ document.addEventListener("DOMContentLoaded", () => {
           const div = document.createElement("div");
           div.classList.add("chip");
           div.textContent = `${formatarDiaMes(d)} - ${hStr}`;
+
+          // Clique no horário mostra mensagem e preenche o form
           div.addEventListener("click", () => {
-            document.getElementById("inputData").value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+            const inputDataEl = document.getElementById("inputData");
+            const selectHoraEl = document.getElementById("selectHora");
+            const msgAgendarEl = document.getElementById("msgAgendar");
+
+            inputDataEl.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
             atualizarSelectHora();
-            document.getElementById("selectHora").value = hStr;
-            navegarPara("agendar");
+            selectHoraEl.value = hStr;
+
+            if(msgAgendarEl){
+              msgAgendarEl.textContent = "Agenda feita! Por favor, aguarde confirmação";
+              setTimeout(()=> msgAgendarEl.textContent = "", 5000);
+            } else {
+              alert("Agenda feita! Por favor, aguarde confirmação");
+            }
           });
+
           lista.appendChild(div);
         }
 
-        // incrementa intervalo
         hora[1] += disponibilidade.intervalo;
         if (hora[1] >= 60) {
           hora[0] += Math.floor(hora[1]/60);
@@ -197,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Atualiza select de horas com base em inputData (respeita disponibilidade e pausa almoço)
   function atualizarSelectHora() {
     const inputDataVal = document.getElementById("inputData").value;
     const selectHora = document.getElementById("selectHora");
@@ -213,13 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const fim = disponibilidade.fim.split(":").map(Number);
 
     while (hora[0] < fim[0] || (hora[0] === fim[0] && hora[1] + disponibilidade.intervalo <= fim[1])) {
-      if (ehPausaAlmoco(hora)) {
-        hora = [13, 0];
-      }
+      if (ehPausaAlmoco(hora)) hora = [13, 0];
       if (!(hora[0] < fim[0] || (hora[0] === fim[0] && hora[1] + disponibilidade.intervalo <= fim[1]))) break;
 
       const hStr = hora.map(n => String(n).padStart(2,"0")).join(":");
       const ocupado = agendamentos.some(a => a.data===inputDataVal && a.hora===hStr && a.status!=="cancelada");
+
       if (!ocupado) selectHora.innerHTML += `<option value="${hStr}">${hStr}</option>`;
 
       hora[1] += disponibilidade.intervalo;
@@ -230,32 +210,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //BLOQUEIO DE DATAS INVÁLIDAS
   const inputData = document.getElementById("inputData");
   function atualizarInputData() {
     if (!inputData) return;
     const disponibilidade = JSON.parse(localStorage.getItem("disponibilidade") || "{}");
     if (!disponibilidade.dias) return;
 
-    // data mínima = hoje
     const hoje = new Date();
     inputData.setAttribute("min", hoje.toISOString().split("T")[0]);
-
-    // validação ao digitar/escolher
     inputData.addEventListener("input", () => {
       if (!inputData.value) { atualizarSelectHora(); return; }
       const dataSelecionada = new Date(inputData.value);
       if (!disponibilidade.dias.includes(dataSelecionada.getDay())) {
         alert("Esta data não está disponível para agendamento!");
         inputData.value = "";
-        atualizarSelectHora(); // limpa horários
-      } else {
         atualizarSelectHora();
-      }
+      } else atualizarSelectHora();
     });
   }
 
-  //FORM AGENDAR
+  // FORM AGENDAR
   const formAgendar = document.getElementById("formAgendar");
   const msgAgendar = document.getElementById("msgAgendar");
   if (formAgendar) {
@@ -278,18 +252,34 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
       form.reset();
       gerarHorariosLivres();
-      // mensagem para o usuário
+
       if (msgAgendar) {
-        msgAgendar.textContent = "Aguarde a aprovação, obrigado";
+        msgAgendar.textContent = "Agenda feita! Por favor, aguarde confirmação";
         setTimeout(()=> msgAgendar.textContent = "", 5000);
       } else {
-        alert("Aguarde a aprovação, obrigado");
+        alert("Agenda feita! Por favor, aguarde confirmação");
       }
-      navegarPara("inicio");
+
+      // Atualiza snapshot e exibe mensagem se status mudar (mesma aba)
+      const prevSnap = JSON.parse(sessionStorage.getItem("agdsStatusSnapshot") || "{}");
+      const ags = JSON.parse(localStorage.getItem("agendamentos") || "[]");
+      let mensagem = "";
+      ags.forEach(a => {
+        const prev = prevSnap[a.id];
+        if (prev && prev !== a.status) {
+          if (a.status === "aprovada") mensagem = "Agenda confirmada";
+          if (a.status === "cancelada") mensagem = "Agenda cancelada";
+        }
+      });
+      buildStatusSnapshot();
+      if (mensagem && msgAgendar) {
+        msgAgendar.textContent = mensagem;
+        setTimeout(() => msgAgendar.textContent = "", 7000);
+      }
     });
   }
 
-  //STATUS SNAPSHOT (para detectar aprovações)
+  // STATUS SNAPSHOT
   function buildStatusSnapshot() {
     const ags = JSON.parse(localStorage.getItem("agendamentos") || "[]");
     const snap = {};
@@ -297,10 +287,9 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.setItem("agdsStatusSnapshot", JSON.stringify(snap));
     return snap;
   }
-  // inicial snapshot
   if (!sessionStorage.getItem("agdsStatusSnapshot")) buildStatusSnapshot();
 
-  // Quando o localStorage muda em outra aba
+  // DETECTAR APROVAÇÕES OU CANCELAMENTOS
   window.addEventListener("storage", (ev) => {
     if (!ev.key) return;
     const keysToReact = ["contatos", "disponibilidade", "servicos", "agendamentos"];
@@ -312,33 +301,27 @@ document.addEventListener("DOMContentLoaded", () => {
       atualizarInputData();
     }
 
-    // detectar aprovações: se agendamentos mudou
     if (ev.key === "agendamentos") {
-      // compara snapshot
       const prevSnap = JSON.parse(sessionStorage.getItem("agdsStatusSnapshot") || "{}");
       const ags = JSON.parse(ev.newValue || "[]");
-      let foundApproval = false;
+      let mensagem = "";
       ags.forEach(a => {
         const prev = prevSnap[a.id];
-        if (prev && prev !== a.status && a.status === "aprovada") {
-          // nova aprovação
-          foundApproval = true;
+        if (prev && prev !== a.status) {
+          if (a.status === "aprovada") mensagem = "Agenda confirmada";
+          if (a.status === "cancelada") mensagem = "Agenda cancelada";
         }
       });
-      // atualiza snapshot
       buildStatusSnapshot();
-      if (foundApproval) {
-        // mostra notificação ao usuário
+      if (mensagem) {
         if (msgAgendar) {
-          msgAgendar.textContent = "Agenda confirmada";
-          setTimeout(()=> msgAgendar.textContent = "", 7000);
-        }
-        alert("Agenda confirmada");
+          msgAgendar.textContent = mensagem;
+          setTimeout(() => msgAgendar.textContent = "", 7000);
+        } else alert(mensagem);
       }
     }
   });
 
-  // Focus/visibility recarrega (garante atualização quando volta à aba)
   function recarregarTudo() {
     carregarServicos();
     carregarContatos();
@@ -360,8 +343,6 @@ document.addEventListener("DOMContentLoaded", () => {
   atualizarInputData();
   buildStatusSnapshot();
 
-  // Atualiza horários ao mudar data (change event)
-  if (document.getElementById("inputData")) {
-    document.getElementById("inputData").addEventListener("change", atualizarSelectHora);
-  }
+  if (inputData) inputData.addEventListener("change", atualizarSelectHora);
 });
+
