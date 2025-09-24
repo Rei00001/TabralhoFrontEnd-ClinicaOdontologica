@@ -30,7 +30,7 @@ if (!localStorage.getItem("servicos")) {
     { id: 1, nome: "Consulta/CheckUp", duracao: 30, preco: 120.00 },
     { id: 2, nome: "Limpeza/Profilaxia", duracao: 60, preco: 180.00 },
     { id: 3, nome: "Restauração Simples", duracao: 60, preco: 250.00 },
-    { id: 4, nome: "Urgência (dor)", duracao: 60, preco: 200.00 },
+    { id: 4, nome: "Urgência (dor)", duracao: 60, preco: 200.00 }
   ]));
 }
 
