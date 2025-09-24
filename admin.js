@@ -153,7 +153,7 @@ if (btnLogout) {
     // Limpa sessionStorage, se quiser
     sessionStorage.clear();
     // Redireciona para login.html
-    window.location.href = "index.html";
+    window.location.href = "https://rei00001.github.io/TabralhoFrontEnd-ClinicaOdontologica/";
   });
 }
 
