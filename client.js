@@ -27,8 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dados simulados
   if (!localStorage.getItem("servicos")) {
     localStorage.setItem("servicos", JSON.stringify([
-      { id: 1, nome: "Limpeza", duracao: 30, preco: 120.00 },
-      { id: 2, nome: "Consulta", duracao: 45, preco: 200.00 }
+      { id: 1, nome: "Consulta/CheckUp", duracao: 30, preco: 120.00 },
+      { id: 2, nome: "Limpeza/Profilaxia", duracao: 60, preco: 180.00 }
+      { id: 3, nome: "Restauração Simples", duracao: 60, preco: 250.00 }
+      { id: 4, nome: "Urgência (dor)", duracao: 60, preco: 200.00 }
     ]));
   }
   if (!localStorage.getItem("disponibilidade")) {
@@ -42,16 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!localStorage.getItem("agendamentos")) {
     localStorage.setItem("agendamentos", JSON.stringify([]));
   }
-
-  // Dados padrão para Contato
-if (!localStorage.getItem("contatos")) {
-  localStorage.setItem("contatos", JSON.stringify({
-    endereco: "Rua Exemplo, 123, Bairro Central",
-    whatsapp: "(21) 90000-0000",
-    email: "contato@checkup.com",
-    mapaUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.0..."
-  }));
-}
 
   // FUNÇÕES
   function carregarServicos() {
